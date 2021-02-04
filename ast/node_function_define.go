@@ -26,10 +26,10 @@ func (f *FunctionNode) String() string {
 	return out.String()
 }
 
-func (b *FunctionNode) Token() *token.Token {
-	return b.Name
+func (f *FunctionNode) Token() *token.Token {
+	return f.Name
 }
 
-func (b *FunctionNode) Format(depth, offset int, visited []Node) string {
+func (f *FunctionNode) Format(depth, offset int, visited []Node) string {
 	panic("implement me") // fixme
 }

@@ -6,8 +6,7 @@ import (
 )
 
 type VarAssignNode struct {
-	Token    *token.Token
-	Name     *VarAccessNode
+	Name     *token.Token
 	Operator string
 	Value    Node
 }
@@ -18,4 +17,12 @@ func (as *VarAssignNode) String() string {
 	out.WriteString(as.Operator)
 	out.WriteString(as.Value.String())
 	return out.String()
+}
+
+func (v *VarAssignNode) Token() *token.Token {
+	return v.Name
+}
+
+func (v *VarAssignNode) Format(depth, offset int, visited []Node) string {
+	panic("implement me") // fixme
 }
