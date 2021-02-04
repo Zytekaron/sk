@@ -126,3 +126,25 @@ var primitives = []string{
 	"true",
 	"false",
 }
+
+var equals = []string{
+	"=",
+	"+=",
+	"-=",
+	"*=",
+	"/=",
+	"%=",
+	"&=",
+	"|=",
+	"~=",
+	"^=",
+}
+
+func InEquals(token *Token) bool {
+	for _, e := range equals {
+		if e == token.Value {
+			return true
+		}
+	}
+	return false
+}

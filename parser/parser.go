@@ -243,7 +243,7 @@ func (p *Parser) FuncParam() *Result {
 	// todo implement type specifier
 
 	var defaultValue ast.Node
-	if p.token.Type == token.EQUALS {
+	if p.token.Type == token.EQ {
 		p.advance()
 		result.Advance()
 
@@ -257,7 +257,7 @@ func (p *Parser) FuncParam() *Result {
 	}
 
 	param := &ast.FunctionParamNode{
-		Name:    name,
+		Name: name,
 		// todo implement type
 		Default: defaultValue,
 		Spread:  spread,
@@ -266,5 +266,38 @@ func (p *Parser) FuncParam() *Result {
 }
 
 func (p *Parser) VarDecl() *Result {
-	panic("unimplemented")
+	result := newResult()
+
+	p.advance()
+	result.Advance()
+
+	if p.token.Type == token.IDENTIFIER {
+		err := types.NewError("ParsingError", "Expected identifier but found '"+p.token.Value+"'")
+		return result.Failure(err)
+	}
+
+	name := p.token
+
+	p.advance()
+	result.Advance()
+
+	var expr ast.Node
+	if token.InEquals(p.token) { // is assignment token?
+		p.advance()
+		result.Advance()
+
+		expression := p.Expr()
+		expr = result.Register(expression)
+		if !result.IsSuccess() {
+			return result
+		}
+	}
+
+	// todo check up on this!
+	node := &ast.VarAssignNode{
+		Name:     name,
+		Operator: p.token.Value,
+		Value:    expr,
+	}
+	return result.Success(node)
 }
