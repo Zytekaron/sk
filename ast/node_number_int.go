@@ -10,3 +10,7 @@ type IntNode struct {
 func (i *IntNode) String() string {
 	return i.Token.Value
 }
+
+func (i *IntNode) GetToken() *token.Token {
+	return i.Token
+}

@@ -10,3 +10,7 @@ type FloatNode struct {
 func (f *FloatNode) String() string {
 	return f.Token.Value
 }
+
+func (f *FloatNode) GetToken() *token.Token {
+	return f.Token
+}

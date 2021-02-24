@@ -10,3 +10,7 @@ type DoubleNode struct {
 func (d *DoubleNode) String() string {
 	return d.Token.Value
 }
+
+func (d *DoubleNode) GetToken() *token.Token {
+	return d.Token
+}

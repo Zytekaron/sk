@@ -10,3 +10,7 @@ type ShortNode struct {
 func (s *ShortNode) String() string {
 	return s.Token.Value
 }
+
+func (s *ShortNode) GetToken() *token.Token {
+	return s.Token
+}

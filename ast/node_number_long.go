@@ -10,3 +10,7 @@ type LongNode struct {
 func (l *LongNode) String() string {
 	return l.Token.Value
 }
+
+func (l *LongNode) GetToken() *token.Token {
+	return l.Token
+}
