@@ -10,7 +10,7 @@ type Program BlockNode
 
 func (p *Program) TokenValue() *token.Token {
 	if len(p.Statements) > 0 {
-		return p.Statements[0].Token()
+		return p.Statements[0].GetToken()
 	}
 	return nil
 }

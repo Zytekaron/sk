@@ -16,7 +16,7 @@ func (f *FunctionParamNode) String() string {
 	return f.Name.Value // fixme ??
 }
 
-func (f *FunctionParamNode) Token() *token.Token {
+func (f *FunctionParamNode) GetToken() *token.Token {
 	return f.Name
 }
 

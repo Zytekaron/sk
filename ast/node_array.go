@@ -22,3 +22,7 @@ func (a *ArrayNode) String() string {
 	out.WriteString("]")
 	return out.String()
 }
+
+func (a *ArrayNode) GetToken() *token.Token {
+	return a.Token
+}

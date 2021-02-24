@@ -26,7 +26,7 @@ func (f *FunctionNode) String() string {
 	return out.String()
 }
 
-func (f *FunctionNode) Token() *token.Token {
+func (f *FunctionNode) GetToken() *token.Token {
 	return f.Name
 }
 

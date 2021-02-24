@@ -15,7 +15,7 @@ func (r *ReturnNode) String() string {
 	out.WriteString(r.Token.Value)
 	out.WriteString(" ")
 	if r.ReturnValue != nil {
-		out.WriteString(r.ReturnValue.Token().Value)
+		out.WriteString(r.ReturnValue.GetToken().Value)
 	}
 	out.WriteString(";")
 	return out.String()

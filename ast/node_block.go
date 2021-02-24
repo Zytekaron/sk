@@ -6,7 +6,7 @@ import (
 )
 
 type BlockNode struct {
-	TokenPtr   *token.Token
+	Token      *token.Token
 	Statements []Node
 }
 
@@ -18,8 +18,8 @@ func (b *BlockNode) String() string {
 	return out.String()
 }
 
-func (b *BlockNode) Token() *token.Token {
-	return b.TokenPtr
+func (b *BlockNode) GetToken() *token.Token {
+	return b.Token
 }
 
 func (b *BlockNode) Format(depth, offset int, visited []Node) string {

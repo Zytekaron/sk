@@ -11,15 +11,15 @@ type VarAssignNode struct {
 	Value    Node
 }
 
-func (as *VarAssignNode) String() string {
+func (v *VarAssignNode) String() string {
 	var out bytes.Buffer
-	out.WriteString(as.Name.String())
-	out.WriteString(as.Operator)
-	out.WriteString(as.Value.String())
+	out.WriteString(v.Name.String())
+	out.WriteString(v.Operator)
+	out.WriteString(v.Value.String())
 	return out.String()
 }
 
-func (v *VarAssignNode) Token() *token.Token {
+func (v *VarAssignNode) GetToken() *token.Token {
 	return v.Name
 }
 
