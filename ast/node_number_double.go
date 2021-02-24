@@ -4,7 +4,7 @@ import "sk-go/token"
 
 type DoubleNode struct {
 	Token *token.Token
-	Value int64
+	Value float64
 }
 
 func (d *DoubleNode) String() string {
