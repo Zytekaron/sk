@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"sk-go/lexer"
+	"sk-go/parser"
 	"sk-go/token"
 	"sk-go/types"
 )
@@ -47,14 +48,34 @@ func sliceContains(slice interface{}, value interface{}) bool {
 }
 
 func main() {
-	test()
-	return
+	//var lex = lexer.New("0 1 2 'hi \" there' `what's up` % x true false if else switch case string int")
+	lex := lexer.New("fn main(a, b = 0) { []; 123; x[0]; };")
 
-	var lex = lexer.New("0 1 2 'hi \" there' `what's up` % x true false if else switch case string int")
+	tokens := make([]*token.Token, 0)
+	for {
+		tok := lex.Next()
+		if tok == nil {
+			break
+		}
+		tokens = append(tokens, tok)
+	}
+	fmt.Println(tokens)
+
+	pars := parser.New(tokens)
+	res := pars.Parse()
+
+	fmt.Println("Success:", res.IsSuccess())
+	fmt.Println("Error:", res.Error())
+	fmt.Println("Result:", res.Result())
+	//if res.Result() != nil {
+	//	fmt.Println("Result:", res.Result().Format(0, 4, []ast.Node{}))
+	//} else {
+	//	fmt.Println("Result:", res.Result())
+	//}
 
 	ch := iter(lex)
 	for t := range ch {
-		fmt.Printf("%s(%s)\n", t.Type, t.Value)
+		fmt.Printf("%s '%s'\n", t.Type, t.Value)
 	}
 }
 
