@@ -10,3 +10,7 @@ type VarAccessNode struct {
 func (v *VarAccessNode) String() string {
 	return v.Value
 }
+
+func (v *VarAccessNode) GetToken() *token.Token {
+	return v.Token
+}

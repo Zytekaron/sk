@@ -12,3 +12,7 @@ type BoolNode struct {
 func (b *BoolNode) String() string {
 	return b.Token.Value
 }
+
+func (b *BoolNode) GetToken() *token.Token {
+	return b.Token
+}

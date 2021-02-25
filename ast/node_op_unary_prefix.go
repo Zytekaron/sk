@@ -19,3 +19,7 @@ func (p *PrefixOperationNode) String() string {
 	out.WriteString(")")
 	return out.String()
 }
+
+func (p *PrefixOperationNode) GetToken() *token.Token {
+	return p.Token
+}

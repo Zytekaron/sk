@@ -1,6 +1,7 @@
 package ast
 
 import (
+	"fmt"
 	"sk-go/token"
 	"sk-go/types"
 )
@@ -13,7 +14,7 @@ type FunctionParamNode struct {
 }
 
 func (f *FunctionParamNode) String() string {
-	return f.Name.Value // fixme ??
+	return fmt.Sprintf("%s = %v", f.Name, f.Default)
 }
 
 func (f *FunctionParamNode) GetToken() *token.Token {

@@ -8,4 +8,7 @@ type Node interface {
 
 	// String returns a string representation of this value
 	String() string
+
+	// Format formats the object using a pretty printing format
+	//Format(depth, offset int, visited []Node) string
 }

@@ -23,3 +23,7 @@ func (b *BinaryOperationNode) String() string {
 	out.WriteString(")")
 	return out.String()
 }
+
+func (b *BinaryOperationNode) GetToken() *token.Token {
+	return b.Token
+}
