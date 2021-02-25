@@ -29,14 +29,16 @@ func (t *Token) String() string {
 
 const (
 	// Inbuilt Types
-	BYTE   = "Byte"
-	SHORT  = "Short"
-	INT    = "Int"
-	LONG   = "Long"
-	FLOAT  = "Float"
-	DOUBLE = "Double"
-	BOOL   = "Bool"
-	STRING = "String"
+	BYTE     = "Byte"
+	SHORT    = "Short"
+	INT      = "Int"
+	LONG     = "Long"
+	BIGINT   = "BigInt"
+	FLOAT    = "Float"
+	DOUBLE   = "Double"
+	BIGFLOAT = "BigFloat"
+	BOOL     = "Bool"
+	STRING   = "String"
 
 	IDENTIFIER = "Identifier"
 	KEYWORD    = "Keyword"
@@ -92,22 +94,22 @@ const (
 	NOT_EQUALS     = "!="
 
 	// Assignment
-	EQ        = "="
-	PLUS_EQ   = "+="
-	MINUS_EQ  = "-="
-	TIMES_EQ  = "*="
-	DIVIDE_EQ = "/="
-	MODULO_EQ = "%="
-	AND_EQ    = "&="
-	OR_EQ     = "|="
-	NOT_EQ    = "~="
-	XOR_EQ    = "^="
+	ASSIGN        = "="
+	PLUS_ASSIGN   = "+="
+	MINUS_ASSIGN  = "-="
+	TIMES_ASSIGN  = "*="
+	DIVIDE_ASSIGN = "/="
+	MODULO_ASSIGN = "%="
+	AND_ASSIGN    = "&="
+	OR_ASSIGN     = "|="
+	NOT_ASSIGN    = "~="
+	XOR_ASSIGN    = "^="
 	// todo bitwise shift eq?
-	PLUS_PLUS   = "++"
-	MINUS_MINUS = "--"
+	INCREMENT = "++"
+	DECREMENT = "--"
 )
 
-var keywords = []string{
+var Keywords = []string{
 	"case",
 	"const",
 	"default",
@@ -121,30 +123,57 @@ var keywords = []string{
 	"switch",
 }
 
-var primitives = []string{
+var Primitives = []string{
 	"null",
 	"true",
 	"false",
 }
 
-var equals = []string{
-	"=",
-	"+=",
-	"-=",
-	"*=",
-	"/=",
-	"%=",
-	"&=",
-	"|=",
-	"~=",
-	"^=",
+var Prefix = []Type{
+	PLUS,
+	MINUS,
+	INCREMENT,
+	NOT,
 }
 
-func InEquals(token *Token) bool {
-	for _, e := range equals {
-		if e == token.Value {
-			return true
-		}
-	}
-	return false
+var Postfix = []Type{
+	DECREMENT,
+}
+
+var SimpleMath = []Type{
+	PLUS,
+	MINUS,
+}
+
+var ComplexMath = []Type{
+	TIMES,
+	DIVIDE,
+	MODULO,
+}
+
+var SimpleComparison = []Type{
+	AND,
+	OR,
+}
+
+var ComplexComparison = []Type{
+	EQUALS,
+	NOT_EQUALS,
+	GREATER_EQUALS,
+	LESS_EQUALS,
+	GREATER,
+	LESS,
+}
+
+var Assignment = []Type{
+	ASSIGN,
+	PLUS_ASSIGN,
+	MINUS_ASSIGN,
+	TIMES_ASSIGN,
+	DIVIDE_ASSIGN,
+	MODULO_ASSIGN,
+	AND_ASSIGN,
+	OR_ASSIGN,
+	NOT_ASSIGN,
+	XOR_ASSIGN,
 }
