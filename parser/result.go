@@ -51,6 +51,14 @@ func (r *Result) Failure(err *types.Error) *Result {
 	return r
 }
 
+func (r *Result) Result() ast.Node {
+	return r.result
+}
+
+func (r *Result) Error() *types.Error {
+	return r.error
+}
+
 func (r *Result) IsSuccess() bool {
 	return r.error == nil
 }
