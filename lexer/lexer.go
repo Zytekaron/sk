@@ -14,6 +14,7 @@ const (
 
 var (
 	KEYWORDS = []string{
+		"import", "from", "as",
 		"int", "long", "float", "double", "string", "bool",
 		"fn", "var", "const",
 		"if", "else", "for", "of", "in", "while", "switch", "case", "return", "break", "continue",
@@ -52,6 +53,11 @@ func (l *Lexer) advance() {
 	}
 }
 
+func (l *Lexer) back() {
+	l.index--
+	l.ch = l.characters[l.index]
+}
+
 // todo: check if I need to advance before all these
 //  returns (if so, do that in the if
 //  statement with some fancy function stuff)
@@ -64,6 +70,7 @@ func (l *Lexer) Next() *token.Token {
 	case ' ', '\r', '\n', '\t':
 		return l.Next()
 	case '/':
+		l.advance()
 		switch l.ch {
 		case '/':
 			l.readComment()
@@ -71,54 +78,59 @@ func (l *Lexer) Next() *token.Token {
 		case '*':
 			l.readBlockComment()
 		case '=':
-			return token.NewType(token.DIVIDE_EQ)
+			return token.NewType(token.DIVIDE_ASSIGN)
 		default:
 			return token.NewType(token.DIVIDE)
 		}
 	case '*':
+		l.advance()
 		switch l.ch {
 		case '*':
 			return token.NewType(token.POW)
 		case '=':
-			return token.NewType(token.TIMES_EQ)
+			return token.NewType(token.TIMES_ASSIGN)
 		default:
 			return token.NewType(token.TIMES)
 		}
 	case '+':
+		l.advance()
 		switch l.ch {
 		case '+':
 			l.advance()
-			return token.NewType(token.PLUS_PLUS)
+			return token.NewType(token.INCREMENT)
 		case '=':
 			l.advance()
-			return token.NewType(token.PLUS_EQ)
+			return token.NewType(token.PLUS_ASSIGN)
 		default:
 			return token.NewType(token.PLUS)
 		}
 	case '-':
+		l.advance()
 		switch l.ch {
 		case '-':
 			l.advance()
-			return token.NewType(token.MINUS_MINUS)
+			return token.NewType(token.DECREMENT)
 		case '=':
 			l.advance()
-			return token.NewType(token.MINUS_EQ)
+			return token.NewType(token.MINUS_ASSIGN)
 		default:
 			return token.NewType(token.MINUS)
 		}
 	case '=':
+		l.advance()
 		switch l.ch {
 		case '=':
 			l.advance()
 			return token.NewType(token.EQUALS)
 		default:
-			return token.NewType(token.EQ)
+			return token.NewType(token.ASSIGN)
 		}
 	case '&':
+		l.advance()
 		switch l.ch {
 		case '=':
 			l.advance()
-			return token.NewType(token.AND_EQ)
+			return token.NewType(token.AND_ASSIGN)
 		case '&':
 			l.advance()
 			return token.NewType(token.AND)
@@ -126,10 +138,11 @@ func (l *Lexer) Next() *token.Token {
 			return token.NewType(token.BITWISE_AND)
 		}
 	case '|':
+		l.advance()
 		switch l.ch {
 		case '=':
 			l.advance()
-			return token.NewType(token.OR_EQ)
+			return token.NewType(token.OR_ASSIGN)
 		case '|':
 			l.advance()
 			return token.NewType(token.OR)
@@ -137,22 +150,25 @@ func (l *Lexer) Next() *token.Token {
 			return token.NewType(token.BITWISE_OR)
 		}
 	case '^':
+		l.advance()
 		switch l.ch {
 		case '=':
 			l.advance()
-			return token.NewType(token.XOR_EQ)
+			return token.NewType(token.XOR_ASSIGN)
 		default:
 			return token.NewType(token.BITWISE_XOR)
 		}
 	case '~':
+		l.advance()
 		switch l.ch {
 		case '=':
 			l.advance()
-			return token.NewType(token.NOT_EQ)
+			return token.NewType(token.NOT_ASSIGN)
 		default:
 			return token.NewType(token.BITWISE_NOT)
 		}
 	case '.':
+		l.advance()
 		// if the second char is not a dot
 		if l.ch != '.' {
 			return token.NewType(token.DOT)
@@ -176,7 +192,7 @@ func (l *Lexer) Next() *token.Token {
 		switch l.ch {
 		case '=':
 			l.advance()
-			return token.NewType(token.MODULO_EQ)
+			return token.NewType(token.MODULO_ASSIGN)
 		default:
 			return token.NewType(token.MODULO)
 		}
@@ -254,18 +270,18 @@ func (l *Lexer) readNumber() *token.Token {
 	}
 
 	if l.ch == 'L' {
-		l.advance()
 		return token.New(token.LONG, buf.String())
 	}
 
 	if l.ch == 'f' {
-		l.advance()
 		return token.New(token.FLOAT, buf.String())
 	}
 
 	if l.ch == 'd' {
-		l.advance() // default is double
+		return token.New(token.DOUBLE, buf.String())
 	}
+
+	l.back()
 
 	if decimal {
 		return token.New(token.DOUBLE, buf.String())
@@ -313,7 +329,6 @@ func (l *Lexer) readString() *token.Token {
 		l.advance()
 	}
 
-	l.advance() // right quote
 	return token.New(token.STRING, buf.String())
 }
 
@@ -347,6 +362,7 @@ func (l *Lexer) readIdentifier() *token.Token {
 		buf.WriteRune(l.ch)
 		l.advance()
 	}
+	l.back()
 
 	id := buf.String()
 	if contains(KEYWORDS, id) {
